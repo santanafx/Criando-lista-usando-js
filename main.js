@@ -3,24 +3,26 @@ var array = JSON.parse(localStorage.getItem("conjunto")) || []; //cria um array 
 
 var criaElemento = (objeto) => {
   var novaLi1 = document.createElement("li");
-  novaLi1.classList.add("item"); //adiciona uma classe chama item ao elemento li
-
+  novaLi1.classList.add("nome"); //adiciona uma classe chama item ao elemento li
   var novaLi2 = document.createElement("li");
-  novaLi2.classList.add("item"); //adiciona uma classe chama item ao elemento li
+  novaLi2.classList.add("idade"); //adiciona uma classe chama item ao elemento li
 
   var novaLi3 = document.createElement("li");
-  novaLi3.classList.add("item"); //adiciona uma classe chama item ao elemento li
+  novaLi3.classList.add("sexo"); //adiciona uma classe chama item ao elemento li
 
   var lista = document.querySelector(".lista");
 
   lista.appendChild(novaLi1);
   novaLi1.innerHTML += objeto.nome;
+  novaLi1.dataset.id = objeto.id;
 
   lista.appendChild(novaLi2);
   novaLi2.innerHTML += objeto.idade;
+  novaLi2.dataset.id = objeto.id;
 
   lista.appendChild(novaLi3);
   novaLi3.innerHTML += objeto.sexo;
+  novaLi3.dataset.id = objeto.id;
 };
 
 array.forEach((elemento) => {
@@ -34,15 +36,31 @@ form.addEventListener("submit", (evento) => {
   var idade = evento.target.elements["idade"].value;
   var sexo = evento.target.elements["sexo"].value;
 
+  var existe = array.find((elemento) => elemento.nome === nome);
+
+  // outra maneira de escrever a linha acima sem usar o comando find
+  // array.forEach((elemento) => {
+  //   if (elemento.nome === nome) {
+  //     console.log(elemento);
+  //   }
+  // });
   var objeto = {
     nome: nome,
     idade: idade,
     sexo: sexo,
   };
 
-  criaElemento(objeto);
+  if (existe) {
+    objeto.id = existe.id;
 
-  array.push(objeto); //comando .push joga o objeto dentro do array
+    atualizaElemento(objeto);
+  } else {
+    objeto.id = array.length;
+
+    criaElemento(objeto);
+
+    array.push(objeto); //comando .push joga o objeto dentro do array
+  }
 
   localStorage.setItem("conjunto", JSON.stringify(array)); //comando JSON.stringify serve para
 });
@@ -54,3 +72,7 @@ form.addEventListener("submit", (evento) => {
 //localStorage.removeItem("chave") deleta a informação
 //localSorage.clear() deleta tudo
 //para verificar os dados salvos no localStorage navegar até Application
+
+var atualizaElemento = (objeto) => {
+  document.querySelector(".idade").innerHTML = objeto.idade;
+};
