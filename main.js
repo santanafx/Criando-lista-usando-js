@@ -18,3 +18,10 @@ var criaElemento = (x) => {
   lista.appendChild(novaLi);
   novaLi.innerHTML += x;
 };
+
+//SALVAR VARIÁVEIS NO LocalStorage
+//localStorage.setItem("chave", "valor") serve para inserir uma informação, como é um objeto eu preciso de uma chave e valor
+//localStorage.chave trás a string "chave"
+//localStorage.getItem("chave") trás a string "valor" pois o comando getItem busca o valor da chave
+//localStorage.removeItem("chave") deleta a informação
+//localSorage.clear() deleta tudo
